@@ -98,3 +98,46 @@ app.post("/employee", async (req, res) => {
             res.status(500).json({ error: "Error updating employee"})
         }
     })
+
+    app.delete("employee/:id", async (req, res) => {
+        const employeeId = req.params.id
+
+        try {
+            const employeeRef = db.collection("employees").doc(employeeId)
+            const employee = await employeeRef.get()
+
+            if (!employee.exists) {
+                return res.status(404).json({ error: "Employee not found"})
+            }
+
+            await employeeRef.delete()
+
+            res.status(200).json({ messsage: "Employee deleted successfully"})
+        } catch (error) {
+            console.error("Error deleting employee", error)
+            res.status(500).json({ error: "Error deleting employee"})
+        }
+    })
+
+    app.post("/upload", upload.single("file"), async (req, res) => {
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded"})
+        }
+
+        const filePath = path.join(__dirname, "uploads", req.file.filename)
+        const fileURL = bucket.file(req.file.filename)
+
+        try {
+            await bucket.upload(filePath, {
+                destination: `employee_photos/${req.file.filename}`,
+                metadata: { contentType: req.file.mimetype}
+            })
+
+            const fileURL =  `https://storage.googleapis.com/${bucket.name}/employee_photos/${req.file.filename}`
+
+            res.status(200).json({ messsage: "File uploaded successfully", fileURL})
+        } catch (error) {
+            console.error("Error uploading file", error)
+            res.status(500).json({ error: "Error uploading file"})
+        }
+    })
