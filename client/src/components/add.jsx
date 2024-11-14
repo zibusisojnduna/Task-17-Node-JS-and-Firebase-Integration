@@ -39,16 +39,16 @@ function Add(){
     }
     
     return(
-      <div>
+      <div style={{textAlign:"center"}}>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Name</label>
-            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+            <label htmlFor="name">Name</label><br></br>
+            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} /><br></br>
 
-            <label htmlFor="email">Email</label>
-            <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label htmlFor="email">Email</label><br></br>
+            <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} /><br></br>
 
-            <label htmlFor="position">Position</label>
-            <input type="text" placeholder="Position" value={position} onChange={(e) => setPosition(e.target.value)} />
+            <label htmlFor="position">Position</label><br></br>
+            <input type="text" placeholder="Position" value={position} onChange={(e) => setPosition(e.target.value)} /><br></br>
 
             <button type="submit">Add Employee</button>
         </form>
